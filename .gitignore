@@ -1,0 +1,26 @@
+build
+external
+.*.sw?
+tags
+*~
+\#*\#
+.projectile
+compile_flags.txt
+compile_commands.json
+.git-blame-ignore-revs
+*.pdf
+__pycache__
+
+# Compiled Dynamic Libraries
+*.so
+*.dylib
+*.dll
+
+# Visual Studio Code
+.vscode
+
+# Mac OS X
+.DS_Store
+
+# Graphviz dot file
+*.dot
