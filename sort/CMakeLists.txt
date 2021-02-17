@@ -4,10 +4,12 @@ function(build_cpu_code name srcs)
     add_executable(${name} ${srcs})
     target_include_directories(${name}  
         PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/cpu/common/
     )
 
     target_link_libraries(${name} 
         LINK_PRIVATE
+        ${OPENMP_FLAG}
     )
 endfunction()
 

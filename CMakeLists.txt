@@ -34,6 +34,42 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+OPTION (USE_OPENMP "Use OpenMP to enamble <omp.h>" ON)
+
+if(USE_OPENMP)
+    if(APPLE)
+        if(CMAKE_C_COMPILER_ID MATCHES "Clang\$")
+            set(OpenMP_C "${CMAKE_C_COMPILER}")
+            set(OpenMP_C_FLAGS "-Xpreprocessor -fopenmp")
+            set(OpenMP_C_LIB_NAMES "omp")
+            set(OpenMP_omp_LIBRARY ${OpenMP_C_LIB_NAMES})
+        endif()
+        if(CMAKE_CXX_COMPILER_ID MATCHES "Clang\$")
+            set(OpenMP_CXX "${CMAKE_CXX_COMPILER}")
+            set(OpenMP_CXX_FLAGS "-Xpreprocessor -fopenmp")
+            set(OpenMP_CXX_LIB_NAMES "omp")
+            set(OpenMP_omp_LIBRARY ${OpenMP_CXX_LIB_NAMES})
+        endif()
+    endif()
+
+    find_package(OpenMP REQUIRED)
+
+    if (NOT CMAKE_VERSION VERSION_LESS 3.9)
+        set(OPENMP_FLAG ${OPENMP_FLAG} OpenMP::OpenMP_CXX) # Requires CMake 3.9+
+    else()
+        set(OpenMP_C_FOUND true)
+        set(OpenMP_CXX_FOUND true)
+
+        if(OpenMP_CXX_FOUND)
+            set(OPENMP_FLAG ${OPENMP_FLAG} ${OpenMP_CXX_FLAGS})
+            append(CMAKE_C_FLAGS ${OpenMP_C_FLAGS})
+            append(CMAKE_CXX_FLAGS ${OpenMP_CXX_FLAGS})
+        endif()
+    endif()
+
+    SET(XIUXIAN_WITH_OPENMP true)
+endif()
+
 enable_testing()
 
 add_subdirectory(sort)

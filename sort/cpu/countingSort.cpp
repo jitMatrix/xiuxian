@@ -2,6 +2,8 @@
 #include <iterator>
 #include <vector>
 
+#include "utils.hpp"
+
 template <typename T>
 std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
     if (!v.empty()) {
@@ -12,7 +14,7 @@ std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
     return out;
 }
 
-int maxValue(std::vector<int> &arr) {
+int maxValue(std::vector<std::int64_t> &arr) {
     int max = 0;
     for (int i = 0; i < arr.size(); ++i) {
         if (arr[i] > max) { max = arr[i]; }
@@ -20,9 +22,9 @@ int maxValue(std::vector<int> &arr) {
     return max;
 }
 
-void countingSort(std::vector<int> &arr, int maxValue) {
+void countingSort(std::vector<std::int64_t> &arr, int maxValue) {
     const int bucketLen = maxValue + 1;
-    std::vector<int> bucket(bucketLen, 0);
+    std::vector<std::int64_t> bucket(bucketLen, 0);
     int sortedIndex = 0;
     for (int i = 0; i < arr.size(); ++i) {
         if (!bucket[arr[i]]) { bucket[arr[i]] = 0; }
@@ -37,10 +39,15 @@ void countingSort(std::vector<int> &arr, int maxValue) {
 }
 
 int main() {
-    std::vector<int> arr = {10, 3, 7, 24, 78, 3, 24, 26};
-    std::cout << "before sort" << arr << std::endl;
+    std::int64_t count = 10;
+    std::vector<std::int64_t> arr;
+    generator::init(arr,
+            std::make_pair(std::pow(10, generator::minval_radix),
+                    std::pow(10, generator::maxval_radix)),
+            count);
     countingSort(arr, maxValue(arr));
     std::cout << "after sort" << arr << std::endl;
+    check_ascend<std::int64_t>(arr);
 
     return 0;
 }
