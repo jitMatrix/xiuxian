@@ -2,33 +2,14 @@
 #include <iterator>
 #include <vector>
 
-template <typename T>
-std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
-    if (!v.empty()) {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-        out << "\b\b]";
-    }
-    return out;
-}
+#include "utils.hpp"
 
 template <typename T>
-void swap(T &a, T &b) {
-    if (a > b) {
-        T tmp = a;
-        a = b;
-        b = tmp;
-    }
-}
-
-template <typename T>
-void heapAdjust(std::vector<T> &arr, int length, int root) {
+void heapAdjust(std::vector<T> &arr, std::int64_t length, std::int64_t root) {
     T curParent = arr[root];
-    int child = 2 * root + 1;
+    std::int64_t child = 2 * root + 1;
     while (child < length) {
-        if (child + 1 < length && arr[child] < arr[child + 1]) {
-            child++;
-        }
+        if (child + 1 < length && arr[child] < arr[child + 1]) { child++; }
         if (curParent < arr[child]) {
             arr[root] = arr[child];
             root = child;
@@ -41,21 +22,26 @@ void heapAdjust(std::vector<T> &arr, int length, int root) {
 }
 
 template <typename T>
-void heapSort(std::vector<T> &arr, int length) {
-    for (int i = length / 2 - 1; i >= 0; --i) {
+void heapSort(std::vector<T> &arr, std::int64_t length) {
+    for (std::int64_t i = length / 2 - 1; i >= 0; --i) {
         heapAdjust<T>(arr, length, i);
     }
-    for (int i = length - 1; i >= 0; --i) {
-        swap<T>(arr[0], arr[i]);
+    for (std::int64_t i = length - 1; i >= 0; --i) {
+        utils::swap<T>(arr[0], arr[i]);
         heapAdjust<T>(arr, i, 0);
     }
 }
 
 int main() {
-    std::vector<float> arr = {1.0f, 0.3f, 0.7f, 0.24f, 0.78f, 0.3f, 2.4f, 2.6f};
-    std::cout << "before sort" << arr << std::endl;
-    heapSort<float>(arr, arr.size());
+    std::int64_t count = 10;
+    std::vector<std::int64_t> arr;
+    generator::init(arr,
+            std::make_pair(std::pow(10, generator::minval_radix),
+                    std::pow(10, generator::maxval_radix)),
+            count);
+    heapSort<std::int64_t>(arr, arr.size());
     std::cout << "after sort" << arr << std::endl;
+    utils::check_ascend<std::int64_t>(arr);
 
     return 0;
 }

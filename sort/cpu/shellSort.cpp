@@ -2,34 +2,17 @@
 #include <iterator>
 #include <vector>
 
-template <typename T>
-std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
-    if (!v.empty()) {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-        out << "\b\b]";
-    }
-    return out;
-}
-
-template <typename T>
-void swap(T &a, T &b) {
-    if (a > b) {
-        T tmp = a;
-        a = b;
-        b = tmp;
-    }
-}
+#include "utils.hpp"
 
 template <typename T>
 void shellSort(std::vector<T> &arr) {
-    int gap, length = arr.size();
+    std::int64_t gap, length = arr.size();
     gap = length / 2;
     while (gap) {
         T curr;
-        for (int i = 0; i < length; i = i + gap) {
+        for (std::int64_t i = 0; i < length; i = i + gap) {
             curr = arr[i];
-            int j = i - gap, orderIndex = i;
+            std::int64_t j = i - gap, orderIndex = i;
             while (j >= 0 && arr[j] >= curr) {
                 arr[orderIndex] = arr[j];
                 orderIndex -= gap;
@@ -42,10 +25,16 @@ void shellSort(std::vector<T> &arr) {
 }
 
 int main() {
-    std::vector<float> arr = {1.0f, 0.3f, 0.7f, 0.24f, 0.78f, 0.3f, 2.4f, 2.6f};
+    std::int64_t count = 10;
+    std::vector<std::int64_t> arr;
+    generator::init(arr,
+            std::make_pair(std::pow(10, generator::minval_radix),
+                    std::pow(10, generator::maxval_radix)),
+            count);
     std::cout << "before sort" << arr << std::endl;
-    shellSort<float>(arr);
+    shellSort<std::int64_t>(arr);
     std::cout << "after sort" << arr << std::endl;
+    utils::check_ascend<std::int64_t>(arr);
 
     return 0;
 }

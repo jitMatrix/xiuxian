@@ -2,22 +2,14 @@
 #include <iterator>
 #include <vector>
 
-template <typename T>
-std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
-    if (!v.empty()) {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-        out << "\b\b]";
-    }
-    return out;
-}
+#include "utils.hpp"
 
 template <typename T>
 void insertionSort(std::vector<T> &arr) {
     T curr;
-    for (int i = 0; i < arr.size(); i++) {
+    for (std::int64_t i = 0; i < arr.size(); i++) {
         curr = arr[i];
-        int j = i - 1, orderIndex = i;
+        std::int64_t j = i - 1, orderIndex = i;
         while (j >= 0 && arr[j] >= curr) {
             arr[orderIndex--] = arr[j--];
         }
@@ -26,10 +18,16 @@ void insertionSort(std::vector<T> &arr) {
 }
 
 int main() {
-    std::vector<float> arr = {1.0f, 0.3f, 0.7f, 0.24f, 0.78f, 0.3f, 2.4f, 2.6f};
+    std::int64_t count = 10;
+    std::vector<std::int64_t> arr;
+    generator::init(arr,
+            std::make_pair(std::pow(10, generator::minval_radix),
+                    std::pow(10, generator::maxval_radix)),
+            count);
     std::cout << "before sort" << arr << std::endl;
-    insertionSort<float>(arr);
+    insertionSort<std::int64_t>(arr);
     std::cout << "after sort" << arr << std::endl;
+    utils::check_ascend<std::int64_t>(arr);
 
     return 0;
 }
