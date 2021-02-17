@@ -5,21 +5,11 @@
 #include "utils.hpp"
 
 template <typename T>
-std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
-    if (!v.empty()) {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-        out << "\b\b]";
-    }
-    return out;
-}
-
-template <typename T>
 void insertionSort(std::vector<T> &arr) {
     T curr;
-    for (int i = 0; i < arr.size(); i++) {
+    for (std::int64_t i = 0; i < arr.size(); i++) {
         curr = arr[i];
-        int j = i - 1, orderIndex = i;
+        std::int64_t j = i - 1, orderIndex = i;
         while (j >= 0 && arr[j] >= curr) {
             arr[orderIndex--] = arr[j--];
         }
@@ -37,7 +27,7 @@ int main() {
     std::cout << "before sort" << arr << std::endl;
     insertionSort<std::int64_t>(arr);
     std::cout << "after sort" << arr << std::endl;
-    check_ascend<std::int64_t>(arr);
+    utils::check_ascend<std::int64_t>(arr);
 
     return 0;
 }

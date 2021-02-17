@@ -5,42 +5,24 @@
 
 #include "utils.hpp"
 
-template <typename T>
-std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
-    if (!v.empty()) {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-        out << "\b\b]";
-    }
-    return out;
-}
-
-int maxValue(std::vector<std::int64_t> &arr) {
-    int max = 0;
-    for (int i = 0; i < arr.size(); ++i) {
-        if (arr[i] > max) { max = arr[i]; }
-    }
-    return max;
-}
-
-void radixSort(std::vector<std::int64_t> &arr, int maxValue) {
-    int digit = 0;
-    int maxDigit = 1;
+void radixSort(std::vector<std::int64_t> &arr, std::int64_t maxValue) {
+    std::int64_t digit = 0;
+    std::int64_t maxDigit = 1;
     while (pow(10, maxDigit) <= maxValue) {
         maxDigit += 1;
     }
 
     while (digit < maxDigit) {
         std::vector<std::vector<std::int64_t>> temp(10);
-        for (int i = 0; i < arr.size(); ++i) {
-            int t = static_cast<int>(
-                    static_cast<int>(arr[i] / pow(10, digit)) % 10);
+        for (std::int64_t i = 0; i < arr.size(); ++i) {
+            std::int64_t t = static_cast<std::int64_t>(
+                    static_cast<std::int64_t>(arr[i] / pow(10, digit)) % 10);
             temp[t].push_back(arr[i]);
         }
 
         std::vector<std::int64_t> coll;
-        for (int i = 0; i < 10; ++i) {
-            for (int j = 0; j < temp[i].size(); ++j) {
+        for (std::int64_t i = 0; i < 10; ++i) {
+            for (std::int64_t j = 0; j < temp[i].size(); ++j) {
                 coll.push_back(temp[i][j]);
             }
         }
@@ -58,9 +40,9 @@ int main() {
                     std::pow(10, generator::maxval_radix)),
             count);
     std::cout << "before sort" << arr << std::endl;
-    radixSort(arr, maxValue(arr));
+    radixSort(arr, utils::maxValue<std::int64_t>(arr));
     std::cout << "after sort" << arr << std::endl;
-    check_ascend<std::int64_t>(arr);
+    utils::check_ascend<std::int64_t>(arr);
 
     return 0;
 }

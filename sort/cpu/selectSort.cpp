@@ -5,35 +5,14 @@
 #include "utils.hpp"
 
 template <typename T>
-std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
-    if (!v.empty()) {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-        out << "\b\b]";
-    }
-    return out;
-}
-
-template <typename T>
-void swap(T &a, T &b) {
-    if (a > b) {
-        T tmp = a;
-        a = b;
-        b = tmp;
-    }
-}
-
-template <typename T>
 void selectSort(std::vector<T> &arr) {
-    int minindex = 0;
-    for (int i = 0; i < arr.size(); ++i) {
+    std::int64_t minindex = 0;
+    for (std::int64_t i = 0; i < arr.size(); ++i) {
         minindex = i;
-        for (int j = i + 1; j < arr.size(); ++j) {
-            if (arr[j] < arr[minindex]) {
-                minindex = j;
-            }
+        for (std::int64_t j = i + 1; j < arr.size(); ++j) {
+            if (arr[j] < arr[minindex]) { minindex = j; }
         }
-        swap(arr[i], arr[minindex]);
+        utils::swap<T>(arr[i], arr[minindex]);
     }
 }
 
@@ -47,7 +26,7 @@ int main() {
     std::cout << "before sort" << arr << std::endl;
     selectSort<std::int64_t>(arr);
     std::cout << "after sort" << arr << std::endl;
-    check_ascend<std::int64_t>(arr);
+    utils::check_ascend<std::int64_t>(arr);
 
     return 0;
 }
