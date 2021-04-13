@@ -67,9 +67,10 @@ if(USE_OPENMP)
         endif()
     endif()
 
-    SET(XIUXIAN_WITH_OPENMP true)
+    add_definitions(-DXIUXIAN_WITH_OPENMP)
 endif()
 
 enable_testing()
 
 add_subdirectory(sort)
+add_subdirectory(thread)
