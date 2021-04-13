@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <chrono>
+#include <functional>
 #include <iostream>
 #include <numeric>
 #include <random>
@@ -80,7 +82,7 @@ std::vector<T> parallel_omp_filter_median(
 }
 
 int main(int argc, char *argv[]) {
-    int input_size = 10000;
+    int input_size = 1000000;
     int filter_size = 5;
     int num_threads = 4;
     if (argc == 4) {
