@@ -9,7 +9,7 @@ function(build_cpu_code name srcs)
 
     target_link_libraries(${name} 
         LINK_PRIVATE
-        ${OPENMP_FLAG}
+        ${EXTRA_SHARED_LIBS}
     )
 endfunction()
 
