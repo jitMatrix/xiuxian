@@ -62,5 +62,6 @@ endif()
 
 enable_testing()
 
+add_subdirectory(graph)
 add_subdirectory(sort)
 add_subdirectory(thread)
