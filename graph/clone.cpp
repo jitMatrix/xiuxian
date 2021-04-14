@@ -2,12 +2,12 @@
 
 #include "ir.hpp"
 
-class clone {
+class graph_clone {
 private:
     std::unordered_map<node *, node *> m;
 
 public:
-    clone() {};
+    graph_clone() {};
     void dfs_visit(node *anode, node *bnode) {
         printf("visit %d\n", anode->val);
 
@@ -55,7 +55,7 @@ int main() {
     e.neighbors.push_back(&d);
     e.neighbors.push_back(&c);
 
-    auto func = clone();
+    graph_clone func;
     auto a_clone = func.clone_graph(&a);
 
     return 0;
