@@ -13,7 +13,9 @@ void pop_front(std::vector<T> &vec) {
 template <typename T>
 std::vector<T> merge(std::vector<T> &left, std::vector<T> &right) {
     std::vector<T> result;
-    while (left.size() and right.size()) {
+    const auto l_size = left.size();
+    const auto r_size = right.size();
+    while (l_size > 0 and r_size > 0) {
         if (left[0] <= right[0]) {
             result.push_back(left[0]);
             pop_front(left);
@@ -22,11 +24,11 @@ std::vector<T> merge(std::vector<T> &left, std::vector<T> &right) {
             pop_front(right);
         }
     }
-    while (left.size()) {
+    while (l_size > 0) {
         result.push_back(left[0]);
         pop_front(left);
     }
-    while (right.size()) {
+    while (r_size > 0) {
         result.push_back(right[0]);
         pop_front(right);
     }
