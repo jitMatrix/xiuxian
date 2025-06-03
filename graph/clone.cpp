@@ -9,10 +9,8 @@ private:
 public:
     graph_clone() {};
     void dfs_visit(node *anode, node *bnode) {
-        printf("visit %d\n", anode->val);
-
         for (auto const &next : anode->neighbors) {
-            node *next_clone = NULL;
+            node *next_clone = nullptr;
             if (m.find(next) == m.end()) {
                 next_clone = new node(next->val);
                 m[next] = next_clone;
@@ -23,7 +21,7 @@ public:
     }
 
     node *clone_graph(node *anode) {
-        if (!anode) { return NULL; }
+        if (!anode) { return nullptr; }
 
         node *node_clone = new node(anode->val);
         m[anode] = node_clone;
